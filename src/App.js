@@ -39,7 +39,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <p>
-            Machine Learning Explainability - Shap Values
+            Machine Learning Explainability - Shap Values Visualization
           </p>
         </header>
         <div className="container">

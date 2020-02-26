@@ -1,8 +1,240 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# SHAP Visualizer
+
+## How to start the application
+
+First, donwload and run the application, following the next commands on a Terminal.
+
+```console
+$ git clone git@github.com:drakessn/SHAP_visualizer.git
+$ cd SHAP_visualizer
+$ npm install
+$ npm start
+Compiled successfully!
+
+You can now view shap-visualizer in the browser.
+
+  Local:            http://localhost:3000
+  On Your Network:  http://192.168.1.69:3000
+
+Note that the development build is not optimized.
+To create a production build, use npm run build.
+```
+
+
+Once the application is online, it can be accessed from any browser at `http://localhost:3000`
+
+![Main page at starting](public/application_1.png)
+
+
+## How to Use
+
+Paste a `JSON Response` from a prediction-explainability service on the `input` text. Then, push the blue `send` button to display the visualizations.
+
+![Visualizations based on JSON data](public/application_2.png)
+
+
+## JSON schema
+
+The json object must follow the following structure, where data is a list of _n_ `predictions` with their respective `shap_values`.
+
+```json
+{
+    "data": [
+        {
+            "prediction": 1,
+            "shap_values": {}
+        },
+        {
+            "prediction": 1,
+            "shap_values": {}
+        },
+    ]
+}
+```
+
+The `shap_values` are structured in the same way as in the python `shap` library, as you can see in the following example: 
+
+
+
+
+```json
+{
+    "data": [
+        {
+            "prediction": 1,
+            "shap_values": {
+                "outNames": [
+                    "output value"
+                ],
+                "baseValue": 0.35615269560349,
+                "outValue": 0.62068413080349,
+                "link": "identity",
+                "featureNames": [
+                    "sex",
+                    "age"
+                ],
+                "features": {
+                    "0": {
+                        "effect": 0.1808387865,
+                        "value": "female"
+                    },
+                    "1": {
+                        "effect": 0.0819308719,
+                        "value": 19
+                    }
+                },
+                "plot_cmap": "DrDb",
+                "labelMargin": 20
+            }
+        }
+    ]
+}
+```
+
+### Data example
+
+The graphics shown in the previous figure were generated with the following `JSON` object:
+
+```json
+{
+    "data": [
+        {
+            "prediction": 1,
+            "shap_values": {
+                "outNames": [
+                    "output value"
+                ],
+                "baseValue": 0.35615269560349,
+                "outValue": 0.69068413080349,
+                "link": "identity",
+                "featureNames": [
+                    "sex",
+                    "age",
+                    "Pclass",
+                    "SibSp",
+                    "Parch"
+                ],
+                "features": {
+                    "0": {
+                        "effect": 0.1808387865,
+                        "value": "female"
+                    },
+                    "1": {
+                        "effect": 0.0819308719,
+                        "value": 19
+                    },
+                    "2": {
+                        "effect": 0.1254735148,
+                        "value": 1
+                    },
+                    "3": {
+                        "effect": -0.0349719782,
+                        "value": 0
+                    },
+                    "4": {
+                        "effect": -0.0187397598,
+                        "value": 2
+                    }
+                },
+                "plot_cmap": "DrDb",
+                "labelMargin": 20
+            }
+        },
+        {
+            "prediction": 0,
+            "shap_values": {
+                "outNames": [
+                    "output value"
+                ],
+                "baseValue": 0.35615269560349,
+                "outValue": 0.06800348460349,
+                "link": "identity",
+                "featureNames": [
+                    "sex",
+                    "age",
+                    "Pclass",
+                    "SibSp",
+                    "Parch"
+                ],
+                "features": {
+                    "0": {
+                        "effect": -0.2808387865,
+                        "value": "male"
+                    },
+                    "1": {
+                        "effect": 0.0819308719,
+                        "value": 21
+                    },
+                    "2": {
+                        "effect": -0.1054735148,
+                        "value": 3
+                    },
+                    "3": {
+                        "effect": 0.0449719782,
+                        "value": 1
+                    },
+                    "4": {
+                        "effect": -0.0287397598,
+                        "value": 1
+                    }
+                },
+                "plot_cmap": "DrDb",
+                "labelMargin": 20
+            }
+        }
+    ]
+}
+```
+
+## How to integrate it into my project
+
+First, you have to load the javascript file from this address into your html: `https://cdn.jsdelivr.net/gh/drakessn/shared@master/js/shap/0.33.0/bundle.js`
+
+```html
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/drakessn/shared@master/js/shap/0.33.0/bundle.js"></script>
+```
+
+Then, you must include the following code snippet, where you want to view it. An example with react would be to create the following component:
+
+```js
+import React, { Component } from 'react'
+
+class ShapCard extends Component {
+	componentDidMount() {
+		const s = document.createElement('script');
+		s.type = 'text/javascript';
+		s.async = true;
+		s.innerHTML = "if (window.SHAP) SHAP.ReactDom.render(SHAP.React.createElement(SHAP.AdditiveForceVisualizer, "+ JSON.stringify(this.props.explain.shap_values) + "), document.getElementById('"+this.props.uuid+"'));";
+		document.body.appendChild(s);
+	}
+
+	componentDidUpdate() {
+		const s = document.createElement('script');
+		s.type = 'text/javascript';
+		s.async = true;
+		s.innerHTML = "if (window.SHAP) SHAP.ReactDom.render(SHAP.React.createElement(SHAP.AdditiveForceVisualizer, "+ JSON.stringify(this.props.explain.shap_values) + "), document.getElementById('"+this.props.uuid+"'));";
+		document.body.appendChild(s);
+	}
+
+	render() {
+		return (
+			<div id={this.props.uuid}></div>
+		)
+	}
+}
+
+export default ShapCard
+```
+
+Where `this.props.uuid` is an identifier and `this.props.explain.shap_values` is the `JSON` object we talked about before. The most important part is that the following script be run:
+
+```js
+s.innerHTML = "if (window.SHAP) SHAP.ReactDom.render(SHAP.React.createElement(SHAP.AdditiveForceVisualizer, "+ JSON.stringify(this.props.explain.shap_values) + "), document.getElementById('"+this.props.uuid+"'));";
+```
 
 ## Available Scripts
 
-In the project directory, you can run:
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). In the project directory, you can run:
 
 ### `npm start`
 
@@ -36,33 +268,3 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify

@@ -1,5 +1,5 @@
 {
-  "name": "machine-learning-explainability-visualization",
+  "name": "shap-visualizer",
   "version": "0.1.0",
   "author": "Drake Arch",
   "description": "Machine Learning Explainability - Shap values visualization",

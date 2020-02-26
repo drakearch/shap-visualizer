@@ -2,10 +2,6 @@ import React, { Component } from 'react'
 
 class ShapCard extends Component {
 
-	constructor(props) {
-		super(props);
-	}
-
 	componentDidMount() {
 		const s = document.createElement('script');
 		s.type = 'text/javascript';
