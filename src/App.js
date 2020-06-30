@@ -4,7 +4,7 @@ import LoanForm from './components/LoanForm';
 import ShapCard from './components/ShapCard';
 
 import store from './store';
-import { setData, setJsonResponse } from './actionCreators'
+import { setData, setJsonResponse , setAmounts, setDescriptions } from './actionCreators'
 
 
 class App extends Component {
@@ -13,7 +13,9 @@ class App extends Component {
     super();
     this.state = {
       json_response: null,
-      data: []
+      data: [],
+      amounts: [],
+      descriptions: []
     }
 
     this.parseJsonResponse = this.parseJsonResponse.bind(this);
@@ -21,7 +23,9 @@ class App extends Component {
     store.subscribe(() => {
       this.setState({
         json_response: store.getState().json_response,
-        data: store.getState().data
+        data: store.getState().data,
+        amounts: store.getState().amounts,
+        descriptions: store.getState().descriptions
       })
     });
   }
@@ -30,7 +34,9 @@ class App extends Component {
     if(json_response!==""){
       let temp = JSON.parse(json_response);
       store.dispatch(setJsonResponse(json_response));
-      store.dispatch(setData(temp.data));
+      store.dispatch(setData(temp.data.shap_values));
+      store.dispatch(setAmounts(temp.data.predicted_amounts));
+      store.dispatch(setDescriptions(temp.data.descriptions));
     }
   }
 
@@ -56,6 +62,8 @@ class App extends Component {
                         index={ index } 
                         key={ index } 
                         uuid= { Date.now().toString()+index }
+                        amount={ this.state.amounts[index] }
+                        description={ this.state.descriptions[index] }
                       />
                     )
                   })

@@ -16,10 +16,26 @@ const reducer = (state, action) => {
         }
     }
 
+    if(action.type === "SET_AMOUNTS") {
+        return {
+            ...state,
+            amounts: action.amounts
+        }
+    }
+
+    if(action.type === "SET_DESC") {
+        return {
+            ...state,
+            descriptions: action.descriptions
+        }
+    }
+
     return state;
 }
 
 export default createStore(reducer, {
     json_response: null,
-    data: []
+    data: [],
+    amounts: [],
+    descriptions: []
 });
