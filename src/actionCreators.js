@@ -12,18 +12,4 @@ const setJsonResponse = json_response => {
     }
 };
 
-const setAmounts = amounts => {
-    return {
-        type: "SET_AMOUNTS",
-        amounts
-    }
-};
-
-const setDescriptions = descriptions => {
-    return {
-        type: "SET_DESC",
-        descriptions
-    }
-};
-
-export { setData, setJsonResponse, setAmounts, setDescriptions };
+export { setData, setJsonResponse };

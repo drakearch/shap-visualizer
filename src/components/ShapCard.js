@@ -39,7 +39,13 @@ class ShapCard extends Component {
 		return (
 			<div className="card">
 				<div className="card-content">
-					<span className="card-title left-align">{ (this.props.index+1).toString() + ". Predicted Amount: $" + this.props.amount.toFixed(2) + " US,     Predicted installments: " + this.props.description }</span>
+					<span className="card-title left-align">{ (this.props.index+1).toString() 
+								+ ". Predicted amount: " + this.props.explain.predicted_amount.toFixed(2) 
+								+ " USD (" + this.props.explain.predicted_profit_ratio.toFixed(2) 
+								+ "), Principal amount: " + this.props.explain.principal_amount.toFixed(2) 
+								+ " USD, Predicted installments: " + this.props.explain.predicted_percentage_installments.toFixed(2) 
+								+ " (" + this.props.explain.predicted_installments.toFixed(0) 
+								+ " out of " + this.props.explain.number_of_installments + ")" }</span>
 					<div id={this.props.uuid}></div>
 				</div>
 			</div>
