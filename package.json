@@ -1,6 +1,6 @@
 {
   "name": "shap-visualizer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Drake Arch",
   "description": "Machine Learning Explainability - Shap values visualization",
   "license": "MIT",
@@ -12,23 +12,17 @@
     "ML"
   ],
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.4.1",
-    "@testing-library/user-event": "^7.2.1",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-redux": "^7.2.0",
-    "react-scripts": "3.4.0",
-    "redux": "^4.0.5"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.4",
+    "react-scripts": "^4.0.3",
+    "redux": "^4.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": {
     "production": [

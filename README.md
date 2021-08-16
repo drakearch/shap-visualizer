@@ -5,8 +5,8 @@
 First, donwload and run the application, following the next commands on a Terminal.
 
 ```console
-$ git clone git@github.com:drakessn/SHAP_visualizer.git
-$ cd SHAP_visualizer
+$ git clone git@github.com:drakearch/shap-visualizer.git
+$ cd shap-visualizer
 $ npm install
 $ npm start
 Compiled successfully!
@@ -14,82 +14,47 @@ Compiled successfully!
 You can now view shap-visualizer in the browser.
 
   Local:            http://localhost:3000
-  On Your Network:  http://192.168.1.69:3000
+  On Your Network:  http://192.168.1.2:3000
 
 Note that the development build is not optimized.
 To create a production build, use npm run build.
 ```
 
 
-Once the application is online, it can be accessed from any browser at `http://localhost:3000`
+Once the application is running, it can be accessed from any browser at `http://localhost:3000`
 
-![Main page at starting](public/application_1.png)
+![Shap form](https://cdn.jsdelivr.net/gh/drakearch/shared@master/shap-visualizer/img/shap_form.png)
 
 
 ## How to Use
 
-Paste a `JSON Response` from a prediction-explainability service on the `input` text. Then, push the blue `send` button to display the visualizations.
+Paste a `JSON Response` from a prediction-explainability service on the `input` text. Then, click the blue `send` button to display the visualizations.
 
-![Visualizations based on JSON data](public/application_2.png)
+![Shap Visualizations based on JSON data](https://cdn.jsdelivr.net/gh/drakearch/shared@master/shap-visualizer/img/shap_cards.png)
 
 
 ## JSON schema
 
-The json object must follow the following structure, where data is a list of _n_ `predictions` with their respective `shap_values`.
+The json object must follow the following structure, where data is a list of _n_ `shap_values`, and `shap_values` are structured in the same way as in the python `shap` library.
 
 ```json
 {
-    "data": [
-        {
-            "prediction": 1,
-            "shap_values": {}
-        },
-        {
-            "prediction": 1,
-            "shap_values": {}
-        },
-    ]
-}
-```
-
-The `shap_values` are structured in the same way as in the python `shap` library, as you can see in the following example: 
-
-
-
-
-```json
-{
-    "data": [
-        {
-            "prediction": 1,
-            "shap_values": {
-                "outNames": [
-                    "output value"
-                ],
-                "baseValue": 0.35615269560349,
-                "outValue": 0.62068413080349,
-                "link": "identity",
-                "featureNames": [
-                    "sex",
-                    "age"
-                ],
-                "features": {
-                    "0": {
-                        "effect": 0.1808387865,
-                        "value": "female"
-                    },
-                    "1": {
-                        "effect": 0.0819308719,
-                        "value": 19
-                    }
-                },
-                "plot_cmap": "DrDb",
-                "labelMargin": 20
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "data": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "shap_property_1": "shap_value_1"
+                }
             }
         }
-    ]
+    }
 }
 ```
+
 
 ### Data example
 
@@ -99,99 +64,93 @@ The graphics shown in the previous figure were generated with the following `JSO
 {
     "data": [
         {
-            "prediction": 1,
-            "shap_values": {
-                "outNames": [
-                    "output value"
-                ],
-                "baseValue": 0.35615269560349,
-                "outValue": 0.69068413080349,
-                "link": "identity",
-                "featureNames": [
-                    "sex",
-                    "age",
-                    "Pclass",
-                    "SibSp",
-                    "Parch"
-                ],
-                "features": {
-                    "0": {
-                        "effect": 0.1808387865,
-                        "value": "female"
-                    },
-                    "1": {
-                        "effect": 0.0819308719,
-                        "value": 19
-                    },
-                    "2": {
-                        "effect": 0.1254735148,
-                        "value": 1
-                    },
-                    "3": {
-                        "effect": -0.0349719782,
-                        "value": 0
-                    },
-                    "4": {
-                        "effect": -0.0187397598,
-                        "value": 2
-                    }
+            "outNames": [
+                "output value"
+            ],
+            "baseValue": 0.35615269560349,
+            "outValue": 0.69068413080349,
+            "link": "identity",
+            "featureNames": [
+                "sex",
+                "age",
+                "Pclass",
+                "SibSp",
+                "Parch"
+            ],
+            "features": {
+                "0": {
+                    "effect": 0.1808387865,
+                    "value": "female"
                 },
-                "plot_cmap": "DrDb",
-                "labelMargin": 20
-            }
+                "1": {
+                    "effect": 0.0819308719,
+                    "value": 19
+                },
+                "2": {
+                    "effect": 0.1254735148,
+                    "value": 1
+                },
+                "3": {
+                    "effect": -0.0349719782,
+                    "value": 0
+                },
+                "4": {
+                    "effect": -0.0187397598,
+                    "value": 2
+                }
+            },
+            "plot_cmap": "DrDb",
+            "labelMargin": 20
         },
         {
-            "prediction": 0,
-            "shap_values": {
-                "outNames": [
-                    "output value"
-                ],
-                "baseValue": 0.35615269560349,
-                "outValue": 0.06800348460349,
-                "link": "identity",
-                "featureNames": [
-                    "sex",
-                    "age",
-                    "Pclass",
-                    "SibSp",
-                    "Parch"
-                ],
-                "features": {
-                    "0": {
-                        "effect": -0.2808387865,
-                        "value": "male"
-                    },
-                    "1": {
-                        "effect": 0.0819308719,
-                        "value": 21
-                    },
-                    "2": {
-                        "effect": -0.1054735148,
-                        "value": 3
-                    },
-                    "3": {
-                        "effect": 0.0449719782,
-                        "value": 1
-                    },
-                    "4": {
-                        "effect": -0.0287397598,
-                        "value": 1
-                    }
+            "outNames": [
+                "output value"
+            ],
+            "baseValue": 0.35615269560349,
+            "outValue": 0.06800348460349,
+            "link": "identity",
+            "featureNames": [
+                "sex",
+                "age",
+                "Pclass",
+                "SibSp",
+                "Parch"
+            ],
+            "features": {
+                "0": {
+                    "effect": -0.2808387865,
+                    "value": "male"
                 },
-                "plot_cmap": "DrDb",
-                "labelMargin": 20
-            }
+                "1": {
+                    "effect": 0.0819308719,
+                    "value": 21
+                },
+                "2": {
+                    "effect": -0.1054735148,
+                    "value": 3
+                },
+                "3": {
+                    "effect": 0.0449719782,
+                    "value": 1
+                },
+                "4": {
+                    "effect": -0.0287397598,
+                    "value": 1
+                }
+            },
+            "plot_cmap": "DrDb",
+            "labelMargin": 20
         }
     ]
 }
 ```
 
-## How to integrate it into my project
+## How to integrate it into my project?
 
-First, you have to load the javascript file from this address into your html: `https://cdn.jsdelivr.net/gh/drakessn/shared@master/js/shap/0.33.0/bundle.js`
+First, you have to load the javascript file from this address into your html: `https://cdn.jsdelivr.net/gh/drakessn/shared@master/shap/0.33.0/js/bundle.js`
 
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/drakessn/shared@master/js/shap/0.33.0/bundle.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/drakessn/shared@master/shap/0.33.0/js/bundle.js"></script>
 ```
 
 Then, you must include the following code snippet, where you want to view it. An example with react would be to create the following component:
@@ -200,20 +159,21 @@ Then, you must include the following code snippet, where you want to view it. An
 import React, { Component } from 'react'
 
 class ShapCard extends Component {
-	componentDidMount() {
+
+	loadShapForceVisualizer() {
 		const s = document.createElement('script');
 		s.type = 'text/javascript';
 		s.async = true;
-		s.innerHTML = "if (window.SHAP) SHAP.ReactDom.render(SHAP.React.createElement(SHAP.AdditiveForceVisualizer, "+ JSON.stringify(this.props.explain.shap_values) + "), document.getElementById('"+this.props.uuid+"'));";
+		s.innerHTML = "if (window.SHAP) SHAP.ReactDom.render(SHAP.React.createElement(SHAP.AdditiveForceVisualizer, "+ JSON.stringify(this.props.explain) + "), document.getElementById('"+this.props.uuid+"'));";
 		document.body.appendChild(s);
 	}
 
+	componentDidMount() {
+		this.loadShapForceVisualizer()
+	}
+
 	componentDidUpdate() {
-		const s = document.createElement('script');
-		s.type = 'text/javascript';
-		s.async = true;
-		s.innerHTML = "if (window.SHAP) SHAP.ReactDom.render(SHAP.React.createElement(SHAP.AdditiveForceVisualizer, "+ JSON.stringify(this.props.explain.shap_values) + "), document.getElementById('"+this.props.uuid+"'));";
-		document.body.appendChild(s);
+		this.loadShapForceVisualizer()
 	}
 
 	render() {
@@ -226,10 +186,10 @@ class ShapCard extends Component {
 export default ShapCard
 ```
 
-Where `this.props.uuid` is an identifier and `this.props.explain.shap_values` is the `JSON` object we talked about before. The most important part is that the following script be run:
+Where `this.props.uuid` is an identifier and `this.props.explain` is the `JSON` object we talked about before. The most important part is running the following script to refresh the visualizations:
 
 ```js
-s.innerHTML = "if (window.SHAP) SHAP.ReactDom.render(SHAP.React.createElement(SHAP.AdditiveForceVisualizer, "+ JSON.stringify(this.props.explain.shap_values) + "), document.getElementById('"+this.props.uuid+"'));";
+s.innerHTML = "if (window.SHAP) SHAP.ReactDom.render(SHAP.React.createElement(SHAP.AdditiveForceVisualizer, "+ JSON.stringify(this.props.explain) + "), document.getElementById('"+this.props.uuid+"'));";
 ```
 
 ## Available Scripts
