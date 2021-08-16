@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import store from '../store'
 
-class LoanForm extends Component {
+class ShapForm extends Component {
     constructor() {
         super();
 
@@ -77,4 +77,4 @@ class LoanForm extends Component {
     }
 }
 
-export default LoanForm;
+export default ShapForm;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import LoanForm from './components/LoanForm';
+import ShapForm from './components/ShapForm';
 import ShapCard from './components/ShapCard';
 
 import store from './store';
@@ -45,7 +45,7 @@ class App extends Component {
         <div className="container">
           <div className="row">
               <div className="col s12 m12 l12">
-                  <LoanForm onParseJsonResponse={ this.parseJsonResponse }/>
+                  <ShapForm onParseJsonResponse={ this.parseJsonResponse }/>
               </div>
               <div className="col s12 m12 l12">
                 {
@@ -55,7 +55,7 @@ class App extends Component {
                         explain={ explain } 
                         index={ index } 
                         key={ index } 
-                        uuid= { Date.now().toString()+index }
+                        uuid={ Date.now().toString()+index }
                       />
                     )
                   })
